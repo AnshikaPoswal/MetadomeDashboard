@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D View</title>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas" touch-action="none"></canvas>
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+    const scene = new BABYLON.Scene(engine);
+
+    // Camera
+    const camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 4, 10, BABYLON.Vector3.Zero(), scene);
+    camera.attachControl(canvas, true);
+
+    // Light
+    const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0), scene);
+
+    // Get parameters from the URL
+    const params = new URLSearchParams(window.location.search);
+    const text = params.get("text") || "Run Name";
+    let color = params.get("color") || "green";
+
+    // Create 3D text
+    BABYLON.MeshBuilder.CreateBox("ground", { width: 8, height: 0.1, depth: 8 }, scene);
+    let advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+    let textBlock = new BABYLON.GUI.TextBlock();
+    textBlock.text = text;
+    textBlock.color = color;
+    textBlock.fontSize = 100;
+    advancedTexture.addControl(textBlock);
+
+    // Function to update color
+    function updateColor(newColor) {
+      textBlock.color = newColor;
+    }
+
+    // Listen for color change messages from the parent page
+    window.addEventListener("message", (event) => {
+      if (event.data.type === "colorChange") {
+        updateColor(event.data.color);
+      }
+    });
+
+    engine.runRenderLoop(() => {
+      scene.render();
+    });
+
+    window.addEventListener("resize", () => {
+      engine.resize();
+    });
+  </script>
+</body>
+</html>
