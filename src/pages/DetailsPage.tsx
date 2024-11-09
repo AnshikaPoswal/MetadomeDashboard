@@ -16,11 +16,7 @@ const DetailsPage: React.FC = () => {
   // Handle color change to dynamically change 3D text color
   const handleColorChange = (newColor: string) => {
     setColor(newColor);
-    // If you have postMessage logic for iframe, uncomment it below
-    // iframeRef.current?.contentWindow?.postMessage(
-    //   { type: "colorChange", color: newColor },
-    //   "*"
-    // );
+    
   };
 
   return (
@@ -46,7 +42,7 @@ const DetailsPage: React.FC = () => {
           onClick={() => navigate(-1)} // Go back one step in browser history
           className="mt-4 bg-gray-500 text-white p-2 rounded-md"
         >
-          Back to previous Animmation
+          Back to previous Animation
         </button>
 
         {/* Color buttons to trigger color change */}

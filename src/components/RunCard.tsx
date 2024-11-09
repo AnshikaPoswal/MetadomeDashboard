@@ -7,7 +7,7 @@ interface RunCardProps {
 }
 
 const RunCard: React.FC<RunCardProps> = ({ run, onClick }) => {
-  // Determine the border color based on the status
+  
   const borderColor =
     run.status === 'Success'
       ? 'border-green-500'

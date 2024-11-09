@@ -49,7 +49,7 @@
       textBlock.color = newColor;
     }
 
-    // Listen for color change messages from the parent page
+    
     window.addEventListener("message", (event) => {
       if (event.data.type === "colorChange") {
         updateColor(event.data.color);
